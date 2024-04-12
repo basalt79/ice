@@ -18,7 +18,7 @@ services:
     ports:
       - "53:53/tcp" # DNS
       - "53:53/udp" # DNS
-      - "80:80/tcp" # WEB UI
+      - "8080:80/tcp" # WEB UI
       - "67:67/udp" # DHCP
     environment:
       TZ: 'Europe/Vienna'
@@ -53,7 +53,6 @@ services:
       test: ["NONE"]
     restart: unless-stopped
 
-    
   prometheus:
     container_name: prometheus
     image: prom/prometheus:latest
@@ -79,7 +78,6 @@ services:
     command:
       - '--path.rootfs=/host'   
 
-
   grafana:
     container_name: grafana
     image: grafana/grafana:latest
@@ -95,3 +93,22 @@ services:
       - ${HOST_ROOT}/grafana/data:/var/lib/grafana
       - ${HOST_ROOT}/grafana/provisioning:/etc/grafana/provisioning
     restart: unless-stopped
+
+  caddy:
+    container_name: caddy
+    hostname: caddy
+    image: caddy:latest
+    networks:
+      ice:
+        ipv4_address: 10.1.1.7
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      TZ: 'Europe/Vienna'
+    volumes:
+      - '${HOST_ROOT}/caddy/index.html:/usr/share/caddy/index.html'
+      - '${HOST_ROOT}/caddy/data:/data'
+      - '${HOST_ROOT}/caddy/Caddyfile:/etc/caddy/Caddyfile'
+    restart: unless-stopped
+
