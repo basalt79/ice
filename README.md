@@ -1,7 +1,19 @@
 # ice
 
 
-## docker
+collection of several docker container providing the services i use and host on a local Raspberry Pi
+
+* [pihole](https://pi-hole.net/) as main usecase to block unwanted traffic
+* [unbound](https://github.com/NLnetLabs/unbound) as a secure open-source recursive DNS server see [here](https://docs.pi-hole.net/guides/dns/unbound/) why
+* [pihole-exporter](https://github.com/eko/pihole-exporter) to get the available data also as metrics
+* [node-exporter](https://github.com/prometheus/node_exporter) to get more metrics about the Raspberry Pi
+* [prometheus](https://prometheus.io/) to collect the metrics
+* [grafana](https://grafana.com/) to visualize the metrics
+* [caddy](https://caddyserver.com/) to host a static bookmark site for the stack
+* [diun](https://crazymax.dev/diun/) to check if there are any newer docker images available on docker hub
+* [portainer](https://www.portainer.io/) to maintain all the images and ramp up the stack
+
+## docker on pi
 ```bash
 curl -sSL https://get.docker.com | sh
 sudo usermod -aG docker $USER
@@ -9,8 +21,7 @@ sudo reboot
 docker ps
 ```
 
-
-## portainer
+## portainer startup
 ```bash
 docker run -d \
   --name=portainer \
@@ -27,16 +38,16 @@ docker run -d \
 
 Naviage to `Stacks` -> `+ Add Stack`
 
-* name
-* ice.yml
+* add a name
+* use the ice.yml as docker compose
 * enter the environment variables
-
-
 
 ## .env
 
-| Key              | Description                                           |
-| ---------------- | ----------------------------------------------------- |
-| HOST_ROOT        | Full qualified folder to the 'data' e.g. '/opt/myice' |
-| PIHOLE_PASSWORD  | passwort to login to pihole                           |
-| GRAFANA_PASSWORD | admin password for grafana                            |
+| Key                | Description                                                                    |
+| ------------------ | ------------------------------------------------------------------------------ |
+| HOST_ROOT          | Full qualified folder to the 'data' e.g. '/opt/myice'                          |
+| PIHOLE_PASSWORD    | passwort to login to pihole                                                    |
+| GRAFANA_PASSWORD   | admin password for grafana                                                     |
+| DISCORD_WEBHOOKURL | I configured a webhook to discored to get informed about docker image versions |
+
