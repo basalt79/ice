@@ -153,6 +153,9 @@ services:
       - "diun.enable=true"
     restart: always
 
+
+
+
   loki:
     image: grafana/loki:latest
     container_name: loki
@@ -168,6 +171,8 @@ services:
   promtail:
     image: grafana/promtail:latest
     container_name: promtail
+    ports:
+      - "9080:9080"    
     volumes:
       - /var/log:/var/log
       - "${HOST_ROOT}/promtail/config.yml:/etc/promtail/config.yml"
