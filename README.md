@@ -3,14 +3,23 @@
 
 collection of several docker container providing the services i use and host on a local Raspberry Pi
 
+Main Reason
 * [pihole](https://pi-hole.net/) as main usecase to block unwanted traffic
 * [unbound](https://github.com/NLnetLabs/unbound) as a secure open-source recursive DNS server see [here](https://docs.pi-hole.net/guides/dns/unbound/) why
+
+Monitoring
 * [pihole-exporter](https://github.com/eko/pihole-exporter) to get the available data also as metrics
 * [node-exporter](https://github.com/prometheus/node_exporter) to get more metrics about the Raspberry Pi
 * [prometheus](https://prometheus.io/) to collect the metrics
 * [grafana](https://grafana.com/) to visualize the metrics
-* [caddy](https://caddyserver.com/) to host a static bookmark site for the stack
 * [diun](https://crazymax.dev/diun/) to check if there are any newer docker images available on docker hub
+  
+Logging
+* [promtail](https://grafana.com/docs/loki/latest/send-data/promtail/) agent collect local logs and send to loki
+* [loki](https://github.com/grafana/loki) to collect the logs (like Prometheus, but for logs)
+
+Side Services
+* [caddy](https://caddyserver.com/) to host a static bookmark site for the stack
 * [portainer](https://www.portainer.io/) to maintain all the images and ramp up the stack
 
 ## docker on pi
