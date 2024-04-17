@@ -29,6 +29,7 @@ services:
       DHCP_END: 192.168.86.250
       DHCP_ROUTER: 192.168.86.1
       PIHOLE_DOMAIN: "home"
+
     volumes:
       - '${HOST_ROOT}/pihole/:/etc/pihole/'
       - '${HOST_ROOT}/dnsmasq/:/etc/dnsmasq.d/'
@@ -51,6 +52,7 @@ services:
     healthcheck:
       test: ["NONE"]
     restart: unless-stopped
+
     
   prometheus:
     container_name: prometheus
@@ -77,6 +79,7 @@ services:
     command:
       - '--path.rootfs=/host'   
 
+
   grafana:
     container_name: grafana
     image: grafana/grafana:latest
@@ -92,6 +95,9 @@ services:
       - ${HOST_ROOT}/grafana/data:/var/lib/grafana
       - ${HOST_ROOT}/grafana/provisioning:/etc/grafana/provisioning
     restart: unless-stopped
+
+
+
 
   caddy:
     container_name: caddy
@@ -112,6 +118,7 @@ services:
     cap_add:
       - NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed      
     restart: unless-stopped    
+
 
   pihole-exporter:
     container_name: pihole-exporter
@@ -145,3 +152,26 @@ services:
     labels:
       - "diun.enable=true"
     restart: always
+
+  loki:
+    image: grafana/loki:latest
+    container_name: loki
+    ports:
+      - "3100:3100"
+    volumes:
+      - "${HOST_ROOT}/loki/local-config.yaml:/etc/loki/local-config.yaml"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      ice:
+        ipv4_address: 10.1.1.9
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: promtail
+    volumes:
+      - /var/log:/var/log
+      - "${HOST_ROOT}/promtail/config.yml:/etc/promtail/config.yml"
+    command: -config.file=/etc/promtail/config.yml
+    networks:
+      ice:
+        ipv4_address: 10.1.1.10
