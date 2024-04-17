@@ -175,6 +175,7 @@ services:
       - "9080:9080"    
     volumes:
       - /var/log:/var/log
+      - /var/lib:/var/lib
       - "${HOST_ROOT}/promtail/config.yml:/etc/promtail/config.yml"
     command: -config.file=/etc/promtail/config.yml
     networks:
