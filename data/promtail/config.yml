@@ -16,10 +16,29 @@ scrape_configs:
         labels:
           job: varlogs
           __path__: /var/log/*log
-  - job_name: docker
-    static_configs:
-      - targets:
-          - localhost
-        labels:
-          job: dockerlogs
-          __path__: /var/lib/docker/containers/*/*.log
+  - job_name: journal
+    journal:
+      max_age: 12h
+      path: /var/log/journal
+      labels:
+        job: journal
+    relabel_configs:
+      - action: drop
+        source_labels: ['__journal__transport']
+        regex: '^(audit|kernel)$'
+      - source_labels: ['__journal__systemd_unit']
+        target_label: 'unitName'
+      - source_labels: ['__journal__machine_id']
+        target_label: 'machineId'
+      - source_labels: ['__journal__boot_id']
+        target_label: 'bootId'
+      - source_labels: ['__journal__pid']
+        target_label: 'pid'
+      - source_labels: ['__journal__hostname']
+        target_label: 'hostname'
+      - source_labels: ['__journal_container_name']
+        target_label: 'containerName'
+      - source_labels: ['__journal_container_tag']
+        target_label: 'containerTag'
+      - source_labels: ['__journal_container_id']
+        target_label: 'containerId'
