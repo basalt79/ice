@@ -1,5 +1,4 @@
 version: '3'
-
 networks:
   ice:
     driver: bridge
@@ -17,10 +16,10 @@ services:
       ice:
         ipv4_address: 10.1.1.2
     ports:
-      - "53:53/tcp" # DNS
-      - "53:53/udp" # DNS
-      - "8080:80/tcp" # WEB UI
-      - "67:67/udp" # DHCP
+      - '53:53/tcp'
+      - '53:53/udp'
+      - '8080:80/tcp'
+      - '67:67/udp'
     environment:
       TZ: 'Europe/Vienna'
       WEBPASSWORD: '${PIHOLE_PASSWORD}'
@@ -29,7 +28,7 @@ services:
       DHCP_START: 192.168.86.80
       DHCP_END: 192.168.86.250
       DHCP_ROUTER: 192.168.86.1
-      PIHOLE_DOMAIN: "home"
+      PIHOLE_DOMAIN: 'home'
     volumes:
       - '${HOST_ROOT}/pihole/:/etc/pihole/'
       - '${HOST_ROOT}/dnsmasq/:/etc/dnsmasq.d/'
@@ -93,8 +92,8 @@ services:
         ipv4_address: 10.1.1.6
     ports:
       - 3000:3000
-    user: "$UID:$GID"
-    environment: 
+    user: '$UID:$GID'
+    environment:
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
     volumes:
       - ${HOST_ROOT}/grafana/data:/var/lib/grafana
@@ -118,9 +117,7 @@ services:
       - '${HOST_ROOT}/caddy/index.html:/usr/share/caddy/index.html'
       - '${HOST_ROOT}/caddy/data:/data'
       - '${HOST_ROOT}/caddy/Caddyfile:/etc/caddy/Caddyfile'
-    cap_add:
-      - NET_ADMIN # Required if you are using Pi-hole as your DHCP server, else not needed      
-    restart: unless-stopped    
+    restart: unless-stopped
 
   pihole-exporter:
     container_name: pihole-exporter
@@ -144,19 +141,19 @@ services:
       driver: journald
     command: serve
     volumes:
-      - "${HOST_ROOT}/diun/data:/data"
-      - "${HOST_ROOT}/diun/diun.yml:/config/diun.yml"
-      - "/var/run/docker.sock:/var/run/docker.sock"
+      - '${HOST_ROOT}/diun/data:/data'
+      - '${HOST_ROOT}/diun/diun.yml:/config/diun.yml'
+      - '/var/run/docker.sock:/var/run/docker.sock'
     environment:
       TZ: 'Europe/Vienna'
       LOG_LEVEL: 'info'
-      CONFIG: "/config/diun.yml"
-      DIUN_NOTIF_DISCORD_WEBHOOKURL: "${DISCORD_WEBHOOKURL}"
+      CONFIG: '/config/diun.yml'
+      DIUN_NOTIF_DISCORD_WEBHOOKURL: '${DISCORD_WEBHOOKURL}'
       DIUN_NOTIF_DISCORD_RENDERFIELDS: true
-      DIUN_NOTIF_DISCORD_TIMEOUT: "10s"
-      DIUN_NOTIF_DISCORD_TEMPLATEBODY: "Docker tag {{ .Entry.Image }} has been released."
+      DIUN_NOTIF_DISCORD_TIMEOUT: '10s'
+      DIUN_NOTIF_DISCORD_TEMPLATEBODY: 'Docker tag {{ .Entry.Image }} has been released.'
     labels:
-      - "diun.enable=true"
+      - 'diun.enable=true'
     restart: always
 
   loki:
@@ -167,7 +164,7 @@ services:
     ports:
       - 3100:3100
     volumes:
-      - "${HOST_ROOT}/loki/local-config.yaml:/etc/loki/local-config.yaml"
+      - '${HOST_ROOT}/loki/local-config.yaml:/etc/loki/local-config.yaml'
     command: -config.file=/etc/loki/local-config.yaml -log.level=warn
     networks:
       ice:
@@ -183,7 +180,7 @@ services:
     volumes:
       - /var/log:/var/log
       - /var/lib:/var/lib
-      - "${HOST_ROOT}/promtail/config.yml:/etc/promtail/config.yml"
+      - '${HOST_ROOT}/promtail/config.yml:/etc/promtail/config.yml'
     command: -config.file=/etc/promtail/config.yml
     networks:
       ice:

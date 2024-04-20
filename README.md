@@ -31,14 +31,20 @@ docker ps
 ```
 
 ## portainer startup
+### generate password for portainer admin user
+```bash
+docker run --rm httpd:2.4-alpine htpasswd -nbB admin 'password1234' | cut -d ":" -f 2
+```
+
 ```bash
 docker run -d \
   --name=portainer \
   --restart=always \
   -p 9000:9000 \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -v /opt/ice/portainer:/data \
-  portainer/portainer-ce:latest
+  -v /opt/ice/data/portainer:/data \
+  portainer/portainer-ce:2.20.1 \
+  --admin-password '<the generated hashed password>'
 ```
 
 * open http://<host>:9000
