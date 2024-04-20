@@ -46,11 +46,11 @@ services:
     networks:
       ice:
         ipv4_address: 10.1.1.3
+    ports:
+      - 5053:53        
     volumes:
       - ${HOST_ROOT}/unbound/custom.conf.d/:/etc/unbound/custom.conf.d/
       - ${HOST_ROOT}/unbound/unbound.conf/:/etc/unbound/unbound.conf
-    ports:
-      - 5053:53
     restart: unless-stopped
 
   prometheus:
@@ -139,6 +139,9 @@ services:
     image: crazymax/diun:4.28
     logging:
       driver: journald
+    networks:
+      ice:
+        ipv4_address: 10.1.1.9      
     command: serve
     volumes:
       - '${HOST_ROOT}/diun/data:/data'
@@ -161,20 +164,23 @@ services:
     image: grafana/loki:2.9.4
     logging:
       driver: journald
+    networks:
+      ice:
+        ipv4_address: 10.1.1.10
     ports:
       - 3100:3100
     volumes:
       - '${HOST_ROOT}/loki/local-config.yaml:/etc/loki/local-config.yaml'
     command: -config.file=/etc/loki/local-config.yaml -log.level=warn
-    networks:
-      ice:
-        ipv4_address: 10.1.1.9
 
   promtail:
     container_name: promtail
     image: grafana/promtail:2.9.4
     logging:
       driver: journald
+    networks:
+      ice:
+        ipv4_address: 10.1.1.11      
     ports:
       - 9080:9080
     volumes:
@@ -182,8 +188,5 @@ services:
       - /var/lib:/var/lib
       - '${HOST_ROOT}/promtail/config.yml:/etc/promtail/config.yml'
     command: -config.file=/etc/promtail/config.yml
-    networks:
-      ice:
-        ipv4_address: 10.1.1.10
     depends_on:
       - loki
