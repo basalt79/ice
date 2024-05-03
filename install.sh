@@ -91,12 +91,14 @@ portainer() {
 }
 
 icehole() {
+  # there will be a better way https://discourse.pi-hole.net/t/a-cli-tool-to-restore-teleporter-backup-archives/63701
   BACKUP_FILE="$PWD/data/pihole/backup.tar.gz"
   box_out "PIHOLE" "directory = $PWD"  "backup = $BACKUP_FILE" >&2
   if [ -f "$BACKUP_FILE" ]; then
       echo "Backup file found [$BACKUP_FILE]. Proceeding with import..."
-      docker exec -it pihole tar --overwrite -zxvf /etc/pihole/backup.tar.gz -C /
+      docker exec -it pihole tar --overwrite -zxvf /etc/pihole/backup.tar.gz -C /etc/pihole/
       docker exec -it pihole pihole restartdns
+      docker exec -it pihole pihole -g
       echo "Import completed successfully."
   else
       echo "Backup file does not exist [$BACKUP_FILE]. No action taken."
@@ -115,7 +117,7 @@ main() {
 
   cleanup
   portainer
-  icehole
+#  icehole
 
 }
 
