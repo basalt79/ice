@@ -26,7 +26,6 @@ cleanup() {
   docker rm -f  $(docker ps -qa)
   docker network rm -f ice_ice
   rm -r "$PWD"/data/portainer
-  # docker rmi httpd:alpine3.19 > /dev/null
 }
 
 waitForDockerLogEntry() {
@@ -59,16 +58,20 @@ portainer() {
 
   echo "LOGIN to Portainer"
 
+  # Login to portainer and get the jwt
   PORTAINER_JWT=$(curl -s -X  POST http://localhost:9000/api/auth \
     --header "Content-Type: application/json" \
     --data '{"username": "admin","password": "'"$PORTAINER_PASSWORD"'"}'| jq -r '.jwt')
 
+  # Create local environment local-ice and get back the id of the environment
   ENDPOINT_ID=$(curl -s -X POST http://localhost:9000/api/endpoints \
     --header "Authorization: Bearer $PORTAINER_JWT" \
     --form 'Name="local-ice"' \
     --form 'EndpointCreationType="1"' | jq '.Id')
 
+  # read the ice yml file and prepare for posting the content via http
   STACK_CONTENT=$(sed ':a;N;$!ba;s/\n/\\n/g' ice.yml)
+  # create the stack by posting the ice yml content to the just created environment
   STACK_CREATE=$(curl -X POST http://127.0.0.1:9000/api/stacks/create/standalone/string?endpointId=$ENDPOINT_ID \
     --header "Authorization: Bearer $PORTAINER_JWT" \
     --header "Content-Type: application/json" \
@@ -87,7 +90,7 @@ portainer() {
   echo  "the stack create: $STACK_CREATE"
 }
 
-ice-pihole() {
+icehole() {
   BACKUP_FILE="$PWD/data/pihole/backup.tar.gz"
   box_out "PIHOLE" "directory = $PWD"  "backup = $BACKUP_FILE" >&2
   if [ -f "$BACKUP_FILE" ]; then
@@ -112,7 +115,7 @@ main() {
 
   cleanup
   portainer
-  ice-pihole
+  icehole
 
 }
 

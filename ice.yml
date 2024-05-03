@@ -9,6 +9,7 @@ networks:
 services:
   pihole:
     container_name: pihole
+    hostname: pihole
     image: pihole/pihole:2024.03.2
     logging:
       driver: journald
@@ -40,6 +41,7 @@ services:
 
   unbound:
     container_name: unbound
+    hostname: unbound
     image: klutchell/unbound:1.19.3
     logging:
       driver: journald
@@ -47,7 +49,7 @@ services:
       ice:
         ipv4_address: 10.1.1.3
     ports:
-      - 5053:53        
+      - 5053:53
     volumes:
       - ${HOST_ROOT}/unbound/custom.conf.d/:/etc/unbound/custom.conf.d/
       - ${HOST_ROOT}/unbound/unbound.conf/:/etc/unbound/unbound.conf
@@ -55,6 +57,7 @@ services:
 
   prometheus:
     container_name: prometheus
+    hostname: prometheus
     image: prom/prometheus:v2.51.2
     logging:
       driver: journald
@@ -65,9 +68,13 @@ services:
         ipv4_address: 10.1.1.4
     ports:
       - 9090:9090
+    depends_on:
+      - node-exporter
+      - pihole-exporter
 
   node-exporter:
     container_name: node-exporter
+    hostname: node-exporter
     image: prom/node-exporter:v1.7.0
     logging:
       driver: journald
@@ -84,6 +91,7 @@ services:
 
   grafana:
     container_name: grafana
+    hostname: grafana
     image: grafana/grafana:10.4.2
     logging:
       driver: journald
@@ -99,9 +107,13 @@ services:
       - ${HOST_ROOT}/grafana/data:/var/lib/grafana
       - ${HOST_ROOT}/grafana/provisioning:/etc/grafana/provisioning
     restart: unless-stopped
+    depends_on:
+      - loki
+      - prometheus
 
   caddy:
     container_name: caddy
+    hostname: caddy
     image: caddy:2.7.6
     logging:
       driver: journald
@@ -121,6 +133,7 @@ services:
 
   pihole-exporter:
     container_name: pihole-exporter
+    hostname: pihole-exporter
     image: ekofr/pihole-exporter:v0.4.0
     logging:
       driver: journald
@@ -133,15 +146,18 @@ services:
       PORT: 9617
       PIHOLE_HOSTNAME: pihole
       PIHOLE_PASSWORD: ${PIHOLE_PASSWORD}
+    depends_on:
+      - pihole
 
   diun:
     container_name: diun
+    hostname: diun
     image: crazymax/diun:4.28
     logging:
       driver: journald
     networks:
       ice:
-        ipv4_address: 10.1.1.9      
+        ipv4_address: 10.1.1.9
     command: serve
     volumes:
       - '${HOST_ROOT}/diun/data:/data'
@@ -158,9 +174,19 @@ services:
     labels:
       - 'diun.enable=true'
     restart: always
+    depends_on:
+      - loki
+      - pihole
+      - unbound
+      - pihole-exporter
+      - grafana
+      - caddy
+      - node-exporter
+      - prometheus
 
   loki:
     container_name: loki
+    hostname: loki
     image: grafana/loki:2.9.4
     logging:
       driver: journald
@@ -175,12 +201,13 @@ services:
 
   promtail:
     container_name: promtail
+    hostname: promtail
     image: grafana/promtail:2.9.4
     logging:
       driver: journald
     networks:
       ice:
-        ipv4_address: 10.1.1.11      
+        ipv4_address: 10.1.1.11
     ports:
       - 9080:9080
     volumes:
