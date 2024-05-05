@@ -3,6 +3,7 @@ apiVersion: 1
 datasources:
   - name: Prometheus
     type: prometheus
+    uid: prometheusdatasource
     access: proxy
     url: http://prometheus:9090
     jsonData:
@@ -15,6 +16,7 @@ datasources:
       incrementalQueryOverlapWindow: 10m
   - name: Loki
     type: loki
+    uid: lokidatasource
     access: proxy
     url: http://loki:3100
     jsonData:
