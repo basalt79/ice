@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+# docker, jq, sqlite3
+
 function box_out() {
   local s=("$@") b w t
   t=${s[0]}
@@ -36,9 +39,15 @@ waitForDockerLogEntry() {
   echo "Waiting for container to output a message containing: '$PART_OF_LOG_MESSAGE'"
   while ! docker logs $CONTAINER_NAME 2>&1 | grep -q "$PART_OF_LOG_MESSAGE"; do
     echo "$CONTAINER_NAME waiting for the container to be ready..."
-    sleep 1
+    sleep 2
   done
 }
+
+preconditions() {
+  sudo -E sh -c DEBIAN_FRONTEND=noninteractive apt-get install -y -qq sqlite3 jq docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-ce-rootless-extras docker-buildx-plugin >/dev/null
+  sudo usermod -aG docker $USER
+}
+
 
 portainer() {
   box_out "PORTAINER" "directory = $PWD" "password = $PORTAINER_PASSWORD" >&2
@@ -91,6 +100,13 @@ portainer() {
 }
 
 icehole() {
+
+  waitForDockerLogEntry "Pi-hole blocking is enabled" "pihole"
+
+  # sqlite3 /etc/pihole/gravity.db "INSERT INTO adlist (address, enabled, comment) VALUES ('https://domain.com/blocklist.txt', 1, 'comment');"
+
+
+
   # there will be a better way https://discourse.pi-hole.net/t/a-cli-tool-to-restore-teleporter-backup-archives/63701
   BACKUP_FILE="$PWD/data/pihole/backup.tar.gz"
   box_out "PIHOLE" "directory = $PWD"  "backup = $BACKUP_FILE" >&2

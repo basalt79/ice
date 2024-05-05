@@ -26,10 +26,11 @@ services:
       WEBPASSWORD: '${PIHOLE_PASSWORD}'
       PIHOLE_DNS_: '10.1.1.3#53'
       DHCP_ACTIVE: true
-      DHCP_START: 192.168.86.80
+      DHCP_START: 192.168.86.21
       DHCP_END: 192.168.86.250
       DHCP_ROUTER: 192.168.86.1
       PIHOLE_DOMAIN: 'home'
+      WEBTHEME: 'default-light'
     volumes:
       - '${HOST_ROOT}/pihole/:/etc/pihole/'
       - '${HOST_ROOT}/dnsmasq/:/etc/dnsmasq.d/'
