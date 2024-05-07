@@ -20,7 +20,6 @@ services:
       - '53:53/tcp'
       - '53:53/udp'
       - '8080:80/tcp'
-      - '67:67/udp'
     environment:
       TZ: 'Europe/Vienna'
       WEBPASSWORD: '${PIHOLE_PASSWORD}'
@@ -39,7 +38,22 @@ services:
     restart: unless-stopped
     depends_on:
       - unbound
+      - dhcphelper
 
+  dhcphelper:
+    container_name: dhcphelper
+    network_mode: "host"
+    hostname: dhcphelper
+    image: homeall/dhcphelper:latest
+    logging:
+      driver: journald
+    environment:
+      IP: '10.1.1.2'
+      TZ: 'Europe/Vienna'
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    
   unbound:
     container_name: unbound
     hostname: unbound
@@ -218,3 +232,51 @@ services:
     command: -config.file=/etc/promtail/config.yml
     depends_on:
       - loki
+
+  wireguard:
+    container_name: wireguard
+    hostname: wireguard
+    image: lscr.io/linuxserver/wireguard:latest
+    logging:
+      driver: journald
+    networks:
+      ice:
+        ipv4_address: 10.1.1.12
+    ports:
+      - 51820:51820/udp
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - TZ='Europe/Vienna'
+      - PEERDNS=192.168.86.20
+    volumes:
+      - '${HOST_ROOT}/wireguard/config:/config'
+    restart: unless-stopped
+
+  wireguard-ui:
+    container_name: wireguard-ui
+    hostname: wireguard-ui
+    image: ngoduykhanh/wireguard-ui:0.6.2
+    logging:
+      driver: journald
+    networks:
+      ice:
+        ipv4_address: 10.1.1.13
+    ports:
+      - 5000:5000
+    environment:
+      - SENDGRID_API_KEY
+      - EMAIL_FROM_ADDRESS
+      - EMAIL_FROM_NAME
+      - SESSION_SECRET
+      - WGUI_USERNAME=admin
+      - WGUI_PASSWORD=password
+      - WG_CONF_TEMPLATE
+      - WGUI_MANAGE_START=false
+      - WGUI_MANAGE_RESTART=true
+    volumes:
+      - '${HOST_ROOT}/wireguard-ui/db:/app/db'
+      - '${HOST_ROOT}/wireguard/config:/etc/wireguard'
+    restart: unless-stopped
+    depends_on:
+      - wireguard
