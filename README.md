@@ -6,6 +6,8 @@ collection of several docker container providing the services i use and host on 
 Main Reason
 * [pihole](https://pi-hole.net/) as main usecase to block unwanted traffic
 * [unbound](https://github.com/NLnetLabs/unbound) as a secure open-source recursive DNS server see [here](https://docs.pi-hole.net/guides/dns/unbound/) why
+* [dhcphelper](https://github.com/homeall/dhcphelper) as a DHCP Relay to get broadcast messages out
+* [easy-wg](https://github.com/wg-easy/wg-easy) WireGuard and Wireguard UI combination
 
 Monitoring
 * [pihole-exporter](https://github.com/eko/pihole-exporter) to get the available data also as metrics
