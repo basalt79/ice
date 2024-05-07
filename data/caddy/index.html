@@ -1,256 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-  <style>
-    /*  ============= WEB BROWSER RESETS ============ */
-    * {
-      margin: 0;
-      padding: 0;
-      border: none
-    }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box
-    }
-
-    html {
-      height: 100%;
-      font-size: 100%;
-      font: inherit;
-      vertical-align: baseline;
-      scroll-behavior: smooth;
-      scroll-padding-top: 20px
-    }
-
-    body {
-      background-color: rgb(223, 207, 190);
-      max-width: 1024px;
-      line-height: 1.5;
-      margin-left: auto;
-      margin-right: auto;
-      min-height: 100vh;
-      text-rendering: optimizeSpeed
-    }
-
-    .container-flexbox {
-      padding-right: 20px;
-      padding-left: 20px;
-    }
-
-    img {
-      width: 100%;
-      height: auto;
-      display: block
-    }
-
-    h1,
-    h2,
-    h3,
-    h4 {
-      width: 100%
-    }
-
-    input,
-    button,
-    textarea,
-    select {
-      font: inherit
-    }
-
-    /* ================= ENDS ================ */
-
-    /* ======================= SECTIONS ======================== */
-
-    /* Regular and larger screens */
-    @media (min-width: 1200px) {
-      section {
-        margin-left: auto;
-        margin-right: auto;
-        padding: 3.5% 0 4% 0;
-        padding-left: calc((100% - 1140px)/2);
-        padding-right: calc((100% - 1140px)/2);
-      }
-
-      .section-narrow {
-        padding-left: calc((100% - 920px)/2);
-        padding-right: calc((100% - 920px)/2);
-      }
-    }
-
-    /* Tablets and smaller desktops */
-    @media (min-width: 1025px) and (max-width: 1199px) {
-      section {
-        padding: 3% 10% 4% 10%
-      }
-    }
-
-    /* Tablets */
-    @media (min-width: 768px) and (max-width: 1024px) {
-      section {
-        padding: 4% 5% 4% 5%
-      }
-    }
-
-    /* Larger mobiles */
-    @media (min-width: 400px) and (max-width: 767px) {
-      section {
-        padding: 7% 13% 8% 13%
-      }
-    }
-
-    /* Smaller mobiles */
-    @media (max-width: 399px) {
-      section {
-        padding: 7% 10% 8% 10%
-      }
-    }
-    /* ==== Headings ==== */
-
-    h1 {
-      font-family: 'Roboto', sans-serif;
-      font-size: 64px;
-      text-align: center;
-      letter-spacing: -1px;
-      margin-bottom: 2px;
-    }
-
-    h3 {
-      font-family: 'Roboto', sans-serif;
-      font-size: 28px;
-      margin-bottom: 2px;
-    }
-
-    /* Paragraphs of text */
-    p {
-      font-family: 'Roboto', sans-serif;
-      font-size: 18px;
-      color: #696969;
-      line-height: 1.5
-    }
-
-    /* == FLEXBOX PARENT CONTAINER == */
-    .container-flexbox {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap
-    }
-
-    .edge {
-      text-align: center;
-      padding: 12px;
-      margin-bottom: 20px;
-      width: 23%;
-      border-width: 4px;
-    }
-
-    a {
-      text-decoration: none;
-    }
-
-    .edge h3,
-    .edge p {
-      color: #000
-    }
-
-    .prometheus {
-      background-color: rgb(224, 224, 224);
-      box-shadow: 8px 8px rgba(224, 224, 224, 0.4);
-    }
-    .portainer {
-      background-color: rgb(136, 176, 75);
-      box-shadow: 8px 8px rgba(136, 176, 75, 0.4);
-    }
-    .pihole {
-      background-color: rgb(225, 93, 68);
-      box-shadow: 8px 8px rgba(225, 93, 68, 0.4);
-    }
-    .monitoring {
-      background-color: rgb(149, 82, 81);
-      box-shadow: 8px 8px rgba(149, 82, 81, 0.4);
-    }
-    .wireguard {
-      background-color: rgb(206, 29, 26);
-      box-shadow: 8px 8px rgba(206, 29, 26, 0.4);
-    }
-    .nodeexporter {
-      background-color: rgb(239, 192, 80);
-      box-shadow: 8px 8px rgba(239, 192, 80, 0.4);
-    }
-    .loki {
-      background-color: rgb(82, 66, 81);
-      box-shadow: 8px 8px rgba(82, 66, 81, 0.4);
-    }
-    .promtail {
-      background-color: rgb(121, 131, 62);
-      box-shadow: 8px 8px rgba(121, 131, 62, 0.4);
-    }
-
-    @media (max-width: 767px) {
-      .edge {
-        width: 100%;
-      }
-
-      .edge a {
-        width: 100%;
-      }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ICE</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-  <h1 class='title'>ICE</h1>
-  <div class="container-flexbox">
-    <div class="edge portainer">
-      <a target="_blank" rel="noopener noreferrer" href="http://ice.local:9000/">
-        <h3>Portainer</h3>
-        <p>ice.local:9000</p>
-      </a>
-    </div>
-    <div class="edge pihole">
-      <a target="_blank" rel="noopener noreferrer" href="http://ice.local:8080/admin">
-        <h3>PI-Hole</h3>
+  <pre class="ascii-art">
+    ░▒▓█▓▒░░▒▓██████▓▒░░▒▓████████▓▒░ 
+    ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        
+    ░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░        
+    ░▒▓█▓▒░▒▓█▓▒░      ░▒▓██████▓▒░   
+    ░▒▓█▓▒░▒▓█▓▒░      ░▒▓█▓▒░        
+    ░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░        
+    ░▒▓█▓▒░░▒▓██████▓▒░░▒▓████████▓▒░
+  </pre>
+  <div class="container">
+    <a class="click-box" target="_blank" rel="noopener noreferrer" href="http://ice.local:8080/admin">
+      <div class="box-image">
+        <img src="pihole.png" alt="pihole">
+      </div>
+      <div class="box-content">
+        <h2>PI-Hole</h2>
         <p>ice.local:8080</p>
-      </a>
-    </div>
-    <div class="edge monitoring">
-      <a target="_blank" rel="noopener noreferrer" href="http://ice.local:3000/">
-        <h3>Monitoring</h3>
+      </div>
+    </a>
+    <a class="click-box" target="_blank" rel="noopener noreferrer" href="http://ice.local:3000/">
+      <div class="box-image">
+        <img src="grafana.png" alt="pihole">
+      </div>
+      <div class="box-content">
+        <h2>Grafana</h2>
         <p>ice.local:3000</p>
-      </a>
-    </div>
-    <div class="edge wireguard">
-      <a target="_blank" rel="noopener noreferrer" href="http://ice.local:51821/">
-        <h3>Wireguard</h3>
+      </div>
+    </a>
+    <a class="click-box" target="_blank" rel="noopener noreferrer" href="http://ice.local:51821/">
+      <div class="box-image">
+        <img src="wireguard.png" alt="WireGuard">
+      </div>
+      <div class="box-content">
+        <h2>WireGuard</h2>
         <p>ice.local:51821</p>
-      </a>
-    </div>
-    <div class="edge prometheus">
-      <a target="_blank" rel="noopener noreferrer" href="http://ice.local:9090/">
-        <h3>Prometheus</h3>
+      </div>
+    </a>
+    <a class="click-box" target="_blank" rel="noopener noreferrer" href="http://ice.local:9000/">
+      <div class="box-image">
+        <img src="portainer.webp" alt="portainer">
+      </div>
+      <div class="box-content">
+        <h2>Portainer</h2>
+        <p>ice.local:9000</p>
+      </div>
+    </a>
+    <a class="click-box" target="_blank" rel="noopener noreferrer" href="http://ice.local:9090/">
+      <div class="box-image">
+        <img src="prometheus.png" alt="prometheus">
+      </div>
+      <div class="box-content">
+        <h2>Prometheus</h2>
         <p>ice.local:9090</p>
-      </a>
-    </div>
-    <div class="edge nodeexporter">
-      <a target="_blank" rel="noopener noreferrer" href="http://ice.local:9100/">
-        <h3>Node-Exporter</h3>
-        <p>ice.local:9100</p>
-      </a>
-    </div>
-    <div class="edge promtail">
-      <a target="_blank" rel="noopener noreferrer" href="http://ice.local:9080/">
-        <h3>Promtail</h3>
-        <p>ice.local:9080</p>
-      </a>
-    </div>
-    <div class="edge loki">
-      <a target="_blank" rel="noopener noreferrer" href="http://ice.local:3100/services">
-        <h3>Loki</h3>
+      </div>
+    </a>
+    <a class="click-box" target="_blank" rel="noopener noreferrer" href="http://ice.local:3100/">
+      <div class="box-image">
+        <img src="loki.png" alt="loki">
+      </div>
+      <div class="box-content">
+        <h2>Loki</h2>
         <p>ice.local:3100</p>
-      </a>
-    </div>
+      </div>
+    </a>
+    <a class="click-box" target="_blank" rel="noopener noreferrer" href="http://ice.local:9080/">
+      <div class="box-image">
+        <img src="loki.png" alt="promtail">
+      </div>
+      <div class="box-content">
+        <h2>Promtail</h2>
+        <p>ice.local:9080</p>
+      </div>
+    </a>
+    <a class="click-box" target="_blank" rel="noopener noreferrer" href="http://ice.local:9100/">
+      <div class="box-image">
+        <img src="loki.png" alt="promtail">
+      </div>
+      <div class="box-content">
+        <h2>Node Exporter</h2>
+        <p>ice.local:9100</p>
+      </div>
+    </a>
   </div>
 </body>
 

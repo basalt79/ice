@@ -1,0 +1,124 @@
+:root {
+  --dark-bg: #333;
+  --dark-text: #fff;
+  --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  --border-color: #ccc;
+  --gradient-dark: linear-gradient(to right, #0A6B35, #064420);
+}
+
+.ascii-art {
+  font-family: monospace;
+  /* Ensures monospaced font */
+  font-size: 12px;
+  /* Adjust size as needed */
+  line-height: 1.6;
+  color: #0A6B35;
+  white-space: pre-wrap;
+  /* Ensures that text wraps if container is too narrow */
+  word-wrap: break-word;
+  /* Break words to prevent overflow */
+  padding: 10px;
+  /* Padding around the text */
+  border-radius: 8px;
+  /* Optional: rounded corners */
+  margin: 1px auto;
+  /* Center it horizontally with auto margins */
+  width: fit-content;
+  /* Optional: shrink wrap to content size */
+  max-width: 100%;
+  /* Ensures it doesn't overflow horizontally */
+}
+
+
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+h1 {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 24px;
+  color: var(--dark-text);
+}
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 5px;
+}
+
+.click-box {
+  display: flex;
+  flex: 1 1 100%; /* One box per row on mobile */
+  max-width: 100%;
+  margin: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  box-shadow: var(--box-shadow);
+  height: 150px;
+  border: 2px solid var(--border-color);
+  transition: all 0.3s;
+  box-sizing: border-box;
+}
+
+.box-image {
+  flex: 0 0 40%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-right: 2px solid #f0f0f0;
+}
+
+.box-image img {
+  height: 100%;
+  width: auto;
+  object-fit: cover;
+}
+
+.box-content {
+  flex: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--gradient-dark);
+}
+
+/* Medium devices (tablets, 768px and up) - 2 boxes per row */
+@media (min-width: 768px) {
+  .click-box {
+    flex: 1 1 48%;
+    /* About half the container width, with a slight reduction for margins/padding */
+    max-width: 48%;
+  }
+}
+
+/* Large devices (desktops, 1024px and up) - 3 boxes per row */
+@media (min-width: 1024px) {
+  .click-box {
+    flex: 1 1 31%;
+    /* Adjusting this to be slightly more than a third allows for padding/margins */
+    max-width: 31%;
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) - 4 boxes per row */
+@media (min-width: 1200px) {
+  .click-box {
+    flex: 1 1 22%;
+    /* Four boxes per row */
+    max-width: 22%;
+  }
+}
