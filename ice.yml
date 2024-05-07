@@ -161,6 +161,7 @@ services:
       PORT: 9617
       PIHOLE_HOSTNAME: pihole
       PIHOLE_PASSWORD: ${PIHOLE_PASSWORD}
+      INTERVAL: '300s'
     depends_on:
       - pihole
 
@@ -233,50 +234,31 @@ services:
     depends_on:
       - loki
 
-  wireguard:
-    container_name: wireguard
-    hostname: wireguard
-    image: lscr.io/linuxserver/wireguard:latest
+  wg-easy:
+    container_name: wg-easy
+    hostname: wg-easy
+    image: ghcr.io/wg-easy/wg-easy
     logging:
       driver: journald
     networks:
       ice:
         ipv4_address: 10.1.1.12
+    environment:
+      - PORT=51821
+      - WG_PORT=51820
+      - LANG=en
+      - WG_HOST=84.112.228.28
+      - PASSWORD=${WG_PASSWORD}
+      - WG_DEFAULT_DNS=192.168.86.20   
+    volumes:
+      - '${HOST_ROOT}/wireguard/config:/etc/wireguard'
     ports:
-      - 51820:51820/udp
+      - "51820:51820/udp"
+      - "51821:51821/tcp"
+    restart: unless-stopped
     cap_add:
       - NET_ADMIN
-    environment:
-      - TZ='Europe/Vienna'
-      - PEERDNS=192.168.86.20
-    volumes:
-      - '${HOST_ROOT}/wireguard/config:/config'
-    restart: unless-stopped
-
-  wireguard-ui:
-    container_name: wireguard-ui
-    hostname: wireguard-ui
-    image: ngoduykhanh/wireguard-ui:0.6.2
-    logging:
-      driver: journald
-    networks:
-      ice:
-        ipv4_address: 10.1.1.13
-    ports:
-      - 5000:5000
-    environment:
-      - SENDGRID_API_KEY
-      - EMAIL_FROM_ADDRESS
-      - EMAIL_FROM_NAME
-      - SESSION_SECRET
-      - WGUI_USERNAME=admin
-      - WGUI_PASSWORD=password
-      - WG_CONF_TEMPLATE
-      - WGUI_MANAGE_START=false
-      - WGUI_MANAGE_RESTART=true
-    volumes:
-      - '${HOST_ROOT}/wireguard-ui/db:/app/db'
-      - '${HOST_ROOT}/wireguard/config:/etc/wireguard'
-    restart: unless-stopped
-    depends_on:
-      - wireguard
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.ip_forward=1
+      - net.ipv4.conf.all.src_valid_mark=1
