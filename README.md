@@ -66,5 +66,6 @@ Naviage to `Stacks` -> `+ Add Stack`
 | HOST_ROOT          | Full qualified folder to the 'data' e.g. '/opt/myice'                          |
 | PIHOLE_PASSWORD    | passwort to login to pihole                                                    |
 | GRAFANA_PASSWORD   | admin password for grafana                                                     |
+| WG_PASSWORD        | password for wireguard UI                                                      |
 | DISCORD_WEBHOOKURL | I configured a webhook to discored to get informed about docker image versions |
 
