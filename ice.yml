@@ -126,25 +126,21 @@ services:
       - loki
       - prometheus
 
-  caddy:
-    container_name: caddy
-    hostname: caddy
-    image: caddy:2.7.6
+
+  nginx:
+    container_name: nginx
+    hostname: nginx
+    image: nginx:stable-alpine3.19
     logging:
       driver: journald
     networks:
       ice:
         ipv4_address: 10.1.1.7
     ports:
-      - 80:80
-      - 443:443
-    environment:
-      TZ: 'Europe/Vienna'
+      - "9999:80"
     volumes:
-      - '${HOST_ROOT}/caddy/index.html:/usr/share/caddy/index.html'
-      - '${HOST_ROOT}/caddy/data:/data'
-      - '${HOST_ROOT}/caddy/Caddyfile:/etc/caddy/Caddyfile'
-    restart: unless-stopped
+      - '${HOST_ROOT}/nginx/html:/usr/share/nginx/html'
+    restart: always
 
   pihole-exporter:
     container_name: pihole-exporter
@@ -262,3 +258,4 @@ services:
     sysctls:
       - net.ipv4.ip_forward=1
       - net.ipv4.conf.all.src_valid_mark=1
+
