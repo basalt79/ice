@@ -89,7 +89,9 @@ portainer() {
                   { "name": "HOST_ROOT", "value": "'"$HOST_ROOT"'" },
                   { "name": "PIHOLE_PASSWORD", "value": "'"$PIHOLE_PASSWORD"'" },
                   { "name": "GRAFANA_PASSWORD", "value": "'"$GRAFANA_PASSWORD"'" },
-                  { "name": "DISCORD_WEBHOOKURL", "value": "'"$DISCORD_WEBHOOKURL"'" }
+                  { "name": "DISCORD_WEBHOOKURL", "value": "'"$DISCORD_WEBHOOKURL"'" },
+                  { "name": "WG_PUBLIC_IP", "value": "'"$WG_PUBLIC_ID"'" },
+                  { "name": "WG_PASSWORD", "value": "'"$WG_PASSWORD"'" }
           ],
           "fromAppTemplate": false,
           "name": "ice",
@@ -130,6 +132,8 @@ main() {
   GRAFANA_PASSWORD=password1234
   DISCORD_WEBHOOKURL=https://discord.com/api/webhooks/1234
   PORTAINER_PASSWORD="password1234"
+  WG_PUBLIC_ID=my.public.ip.address
+  WG_PASSWORD=password1234
 
   cleanup
   portainer
