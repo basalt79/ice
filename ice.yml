@@ -245,7 +245,7 @@ services:
       - LANG=en
       - WG_HOST=${WG_PUBLIC_IP}
       - PASSWORD=${WG_PASSWORD}
-      - WG_DEFAULT_DNS=192.168.86.20   
+      - WG_DEFAULT_DNS=10.1.1.2   
     volumes:
       - '${HOST_ROOT}/wireguard/config:/etc/wireguard'
     ports:
