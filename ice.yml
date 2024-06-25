@@ -10,7 +10,7 @@ services:
   pihole:
     container_name: pihole
     hostname: pihole
-    image: pihole/pihole:2024.05.0
+    image: pihole/pihole:2024.06.0
     logging:
       driver: journald
     networks:
