@@ -60,7 +60,7 @@ portainer() {
     -p 9000:9000 \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v "$PWD"/data/portainer:/data  \
-    portainer/portainer-ce:2.20.1 --admin-password $HASHED_PWD
+    portainer/portainer-ce:2.20.3 --admin-password $HASHED_PWD
 
 
   waitForDockerLogEntry "starting HTTP server" "portainer"
