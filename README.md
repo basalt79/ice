@@ -21,7 +21,7 @@ Logging
 * [loki](https://github.com/grafana/loki) to collect the logs (like Prometheus, but for logs)
 
 Side Services
-* [caddy](https://caddyserver.com/) to host a static bookmark site for the stack
+* [nginx](https://nginx.org) to host a static bookmark site for the stack
 * [portainer](https://www.portainer.io/) to maintain all the images and ramp up the stack
 
 ## docker on pi
