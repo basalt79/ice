@@ -45,7 +45,7 @@ docker run -d \
   -p 9000:9000 \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /opt/ice/data/portainer:/data \
-  portainer/portainer-ce:2.20.1 \
+  portainer/portainer-ce:2.20.3 \
   --admin-password '<the generated hashed password>'
 ```
 
