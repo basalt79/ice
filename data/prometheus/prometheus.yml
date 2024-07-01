@@ -11,9 +11,3 @@ scrape_configs:
     static_configs:
       - targets:
         - prometheus:9090
-  - job_name: pihole
-    static_configs:
-      - targets:
-        - pihole-exporter:9617
-        labels:
-          instance: ice
