@@ -85,7 +85,6 @@ services:
       - 9090:9090
     depends_on:
       - node-exporter
-      - pihole-exporter
 
   node-exporter:
     container_name: node-exporter
@@ -141,25 +140,6 @@ services:
       - '${HOST_ROOT}/nginx/html:/usr/share/nginx/html'
     restart: always
 
-  pihole-exporter:
-    container_name: pihole-exporter
-    hostname: pihole-exporter
-    image: ekofr/pihole-exporter:v0.4.0
-    logging:
-      driver: journald
-    networks:
-      ice:
-        ipv4_address: 10.1.1.8
-    ports:
-      - 9617:9617
-    environment:
-      PORT: 9617
-      PIHOLE_HOSTNAME: pihole
-      PIHOLE_PASSWORD: ${PIHOLE_PASSWORD}
-      INTERVAL: '300s'
-    depends_on:
-      - pihole
-
   diun:
     container_name: diun
     hostname: diun
@@ -189,7 +169,6 @@ services:
       - loki
       - pihole
       - unbound
-      - pihole-exporter
       - grafana
       - nginx
       - node-exporter
