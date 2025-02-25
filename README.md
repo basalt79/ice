@@ -45,8 +45,8 @@ docker run -d \
   -p 9000:9000 \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /opt/ice/data/portainer:/data \
-  portainer/portainer-ce:2.20.3 \
-  --admin-password '<the generated hashed password>'
+  portainer/portainer-ce:lts \
+  --admin-password '$2y$05$.pmooPWSLCvQMNevDdHafO39gV.EJl05eFUTgwux.pykFyAdWgYUC'
 ```
 
 * open http://<host>:9000

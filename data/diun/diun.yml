@@ -1,8 +1,0 @@
-watch:
-  workers: 5
-  schedule: "0 */6 * * *"
-  firstCheckNotif: true
-
-providers:
-  docker:
-    watchByDefault: true
